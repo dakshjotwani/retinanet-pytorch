@@ -22,7 +22,9 @@ class RegressionHead(nn.Module):
 
         out = self.output(out)
 
-        # out is B x C x W x H, with C = 4*num_anchors
-        out = out.permute(0, 2, 3, 1)
+        return out
 
-        return out #.contiguous().view(out.shape[0], -1, 4)
+        # out is B x C x W x H, with C = 4*num_anchors
+        #out = out.permute(0, 2, 3, 1)
+
+        #return out #.contiguous().view(out.shape[0], -1, 4)

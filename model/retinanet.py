@@ -17,7 +17,10 @@ class RetinaNet(nn.Module):
         del self.backbone.avgpool
         del self.backbone.fc
         
-        self.feature_pyramid = FeaturePyramid(512, 1024, 2048, out_channels=256)
+        self.feature_pyramid = FeaturePyramid(512,  # Resnet layer 2 (C3) out channels
+                                              1024, # Resnet layer 3 (C4) out channels
+                                              2048, # Resnet layer 4 (C5) out channels
+                                              out_channels=256)
 
         self.class_head = ClassificationHead(256)
         self.reg_head   = RegressionHead(256)
@@ -37,7 +40,7 @@ class RetinaNet(nn.Module):
 
     def forward(self, x):
         out = self._resnet_backbone_forward(x)
-        
+
         # out = (C3, C4, C5)
         out = self.feature_pyramid(*out)
 
